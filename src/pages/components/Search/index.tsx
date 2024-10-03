@@ -2,6 +2,8 @@ import React, { SyntheticEvent, useCallback, useMemo, useState } from 'react';
 import { Box, Autocomplete, TextField, CircularProgress } from '@mui/material';
 
 import { Location } from '../../../types';
+import Details from '../Details';
+import Nearby from '../Nearby';
 
 export default function Search() {
   const [isLoading, setIsLoading] = useState(false);
@@ -10,21 +12,24 @@ export default function Search() {
   const [searchValue, setSearchValue] = useState('');
 
   const [searchResult, setSearchResult] = useState<readonly Location[]>([]);
+  const [nearby, setNearby] = useState<Location[]>([]);
 
-  const fetchData = useCallback(async () => {
+  const fetchSearchList = useCallback(async () => {
     setIsLoading(true);
 
-    await fetch(`/api/fake-api?search=${searchValue}`)
-    .then(res => res.json())
-    .then(data => setSearchResult(data))
-    .catch(err => console.error(err));
+    if(searchValue){
+      await fetch(`/api/fake-api?search=${searchValue}`)
+      .then(res => res.json())
+      .then(data => setSearchResult(data))
+      .catch(err => console.error(err));
+    }
 
     setIsLoading(false);
   }, [searchValue]);
 
   useMemo(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchSearchList();
+  }, [fetchSearchList]);
 
   const handleValueChange = (_: SyntheticEvent, newValue: string | Location | null) => {
     setSelectedValue(newValue);
@@ -33,6 +38,24 @@ export default function Search() {
   const handleInputChange = (_: SyntheticEvent, newValue: string) => {
     setSearchValue(newValue);
   }
+
+  const fetchNearby = useCallback(async () => {
+    setIsLoading(true);
+
+    if(selectedValue && typeof selectedValue === 'object') {
+      await fetch(`/api/${selectedValue.id}/nearby`)
+      .then(res => res.json())
+      .then(data => setNearby(data))
+      .catch(err => console.error(err));
+    }
+
+    setIsLoading(false);
+
+  }, [selectedValue]);
+
+  useMemo(() => {
+    fetchNearby();
+  }, [fetchNearby]);
 
   return (
     <>
@@ -54,7 +77,7 @@ export default function Search() {
           })}
           filterOptions={(x) => x}
           options={searchResult || []}
-          // @ts-expect-error: checking error later
+          // @ts-expect-error: lib type error
           getOptionLabel={(option) => option.name}
           renderInput={(params) => (
             <TextField
@@ -80,6 +103,10 @@ export default function Search() {
           onInputChange={handleInputChange}
         />
       </Box>
+
+      { selectedValue && typeof selectedValue === 'object' && <Details location={ selectedValue }/> }
+
+      { !!nearby.length && <Nearby nearbyLocations={ nearby } selectLocation={setSelectedValue} /> }
     </>
   )
 }

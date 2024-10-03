@@ -4,8 +4,6 @@ import { Container } from "@mui/material";
 import styles from "@/styles/Home.module.css";
 
 import Search from "./components/Search";
-import Details from "./components/Details";
-import Nearby from "./components/Nearby";
 
 export default function Home() {
   return (
@@ -18,7 +16,7 @@ export default function Home() {
       </Head>
 
       <header>
-        <Container>
+        <Container sx={{ py: 3 }}>
           <h1>Travel Search</h1>
         </Container>
       </header>
@@ -27,10 +25,6 @@ export default function Home() {
 
         <Container>
           <Search/>
-
-          <Details/>
-
-          <Nearby/>
         </Container>
         
       </main>

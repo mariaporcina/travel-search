@@ -93,6 +93,10 @@ a.secondary {
   grid-row-start: 3;
   display: flex;
   gap: 24px;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .footer a {

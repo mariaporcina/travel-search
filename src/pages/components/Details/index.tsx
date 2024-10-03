@@ -3,16 +3,24 @@ import { Box } from '@mui/material'
 
 import styles from "@/styles/Details.module.css";
 
-export default function Details() {
+import { Location } from '@/types';
+
+type DetailsProps = {
+  location: Location;
+}
+
+export default function Details({ location }: DetailsProps) {
   return (
     <>
-      <Box component="section" sx={{ p: 2, my: 2, backgroundColor: '#1a1a1a', borderRadius: 1 }}>
-        <h2 className={styles.title}>City, Country</h2>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laudantium quae mollitia itaque perspiciatis quas voluptas dignissimos facilis doloremque eius soluta. Aperiam, veritatis dolore voluptatum culpa qui asperiores reiciendis inventore deserunt!</p>
-        <p><strong>Country:</strong> país</p>
-        <p><strong>Climate:</strong> clima</p>
-        <p><strong>Currency:</strong> moeda</p>
-      </Box>
+      {location && (
+        <Box component="section" sx={{ p: 2, my: 2, backgroundColor: '#1a1a1a', borderRadius: 1 }}>
+          <h2 className={styles.title}>{ location.name }</h2>
+          <p>{ location.description }</p>
+          <p className={styles.detail}><strong>Country:</strong> { location.country }</p>
+          <p className={styles.detail}><strong>Climate:</strong> { location.climate }</p>
+          <p className={styles.detail}><strong>Currency:</strong> { location.currency }</p>
+        </Box>
+      )}
     </>
   )
 }
