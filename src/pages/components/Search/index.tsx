@@ -1,7 +1,7 @@
-import React, { SyntheticEvent, useEffect, useMemo, useState } from 'react';
+import React, { SyntheticEvent, useCallback, useMemo, useState } from 'react';
 import { Box, Autocomplete, TextField, CircularProgress } from '@mui/material';
 
-import { Location } from '@/pages/types';
+import { Location } from '../../../types';
 
 export default function Search() {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +11,7 @@ export default function Search() {
 
   const [searchResult, setSearchResult] = useState<readonly Location[]>([]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsLoading(true);
 
     await fetch(`/api/fake-api?search=${searchValue}`)
@@ -20,11 +20,11 @@ export default function Search() {
     .catch(err => console.error(err));
 
     setIsLoading(false);
-  }
+  }, [searchValue]);
 
   useMemo(() => {
     fetchData();
-  }, [searchValue]);
+  }, [fetchData]);
 
   const handleValueChange = (_: SyntheticEvent, newValue: string | Location | null) => {
     setSelectedValue(newValue);
@@ -54,6 +54,7 @@ export default function Search() {
           })}
           filterOptions={(x) => x}
           options={searchResult || []}
+          // @ts-expect-error: checking error later
           getOptionLabel={(option) => option.name}
           renderInput={(params) => (
             <TextField

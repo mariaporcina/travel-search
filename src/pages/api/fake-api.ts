@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { Location } from "../types";
+import { Location } from "../../types";
 import locations from "./locations";
 
 export default function handler(
@@ -15,7 +15,6 @@ export default function handler(
 
   if(keyWord && typeof keyWord === 'string') {
     filtered = locations.filter((loc) => loc.name.toLowerCase().includes(keyWord.toLowerCase()));
-    console.log(filtered);
   }
 
   res.status(200).json(filtered);
