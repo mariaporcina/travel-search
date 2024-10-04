@@ -2,7 +2,20 @@
 
 Mozio front-end coding test: Application for searching travel destinations.
 
+## Description
+
+For the design, I chose a simple and minimalist layout, prioritizing usability and doing the best to keep the application intuitive to its users.
+
+As per the technologies used, React with TypeScript, the Next framework and the Material UI library, I chose them mostly because of its reliability and practicality.
+
+Reliability, because I now these are very popular tools, with a well described documentation, so I knew I could easily find anwsers in case of any problems.
+
+And practicality because these technologies have a robust range of tools, which, if well used, can ease the development process and leave you time to worry with other matters, like the programming logic and so on.
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
 
 ## Getting Started
 
